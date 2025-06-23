@@ -3,17 +3,14 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import * as motion from "motion/react-client"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { log } from "console";
-import { splitSort } from "@/sorting-logic";
+import { splitSort } from "@/algos/merge-sort";
+import AlgoViz from "@/components/ui/AlgoViz";
 
 type NumArray = number[]
 
-export default function Home() {
-
-    useEffect(() => {
-        splitSort([1, 14, 3, 9, 4])
-    })
+export default function MergeSort() {
 
     const [sortNumbers, setSortNumbers] = useState<number[]>([])
     const generateNumbers = () => {
@@ -25,22 +22,30 @@ export default function Home() {
 
     return (
         <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-blue-200">
-            <main className="flex flex-col gap-[32px] row-start-2 items-start">
-                <h1 className="text-lg font-bold text-blue-950"> Merge Sort</h1>
+            <main className="flex flex-col gap-[20px]">
+                <h1 className="text-lg font-bold text-blue-950 mt-40"> Merge Sort</h1>
                 <div className="flex flex-col items-center">
-                    <motion.div className="p-4 font-bold bg-white rounded-full mb-4 w-full">
-                        {sortNumbers.join(", ")}
-                    </motion.div>
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 2 }}>
-                        <Button
-                            className="p-7 text-md h-15 bg-blue-800 rounded-full border-1 border-blue-900"
-                            onClick={() => generateNumbers()}
-                        >Generate Numbers</Button>
-                        <Button
-                            className="p-7 text-md h-15 bg-green-800 rounded-full border-1 border-green-900 ml-4"
-                            onClick={() => splitSort(sortNumbers)}
-                        >Sort Numbers</Button>
-                    </motion.div>
+                    <div className="mb-4">
+                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 2 }}>
+                            <Button
+                                className="p-7 text-md h-15 bg-blue-800 rounded-full border-1 border-blue-900"
+                                onClick={() => generateNumbers()}
+                            >Generate Numbers</Button>
+                            <Button
+                                className="p-7 text-md h-15 bg-green-800 rounded-full border-1 border-green-900 ml-4"
+                                onClick={() => splitSort(sortNumbers)}
+                            >Sort Numbers</Button>
+                        </motion.div>
+                    </div>
+                    <div className="flex flex-col w-full items-center">
+                        <motion.div className="p-6 font-bold bg-white rounded-full mb-4 w-full text-center">
+                            {sortNumbers.join(", ")}
+                        </motion.div>
+                    </div>
+                </div>
+
+                <div>
+                    {/* <AlgoViz state={undefined} /> */}
                 </div>
 
             </main>

@@ -1,14 +1,5 @@
 
 
-
-
-
-
-//sorting algorithm
-// function that takes an array
-// SPLIT that array in half until subarray = 1
-// MERGE subarray with neighbor subarray in order
-
 export function splitSort(array: number[]): number[] {
     console.log("Sorting:", array);
     if (array.length <= 1) {
