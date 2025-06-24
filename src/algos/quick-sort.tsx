@@ -33,22 +33,23 @@ export const quickSort = (array: number[], quickObjectArray: quickObject[], full
             leftOrRight: item < pivot ? "left" : "right",
             fullArray: fullArray.slice()
         })
-        console.log("for each:", quickObjectArray)
+        console.log("item:", item)
         if (item < pivot) {
 
             left.push(item)
 
-            console.log("after push left:", quickObjectArray)
+            console.log("after push left:", left)
 
         }
         if (item > pivot) {
             right.push(item)
 
-            console.log("after push right:", quickObjectArray)
+            console.log("after push right:", right)
 
         }
     })
     const sorted = [...quickSort(left, quickObjectArray, fullArray), pivot, ...quickSort(right, quickObjectArray, fullArray)]
     console.log("Sorted", sorted);
-    return sorted
+    return quickObjectArray
+
 }
