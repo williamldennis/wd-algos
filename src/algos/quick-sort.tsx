@@ -1,55 +1,76 @@
 import { log } from "console"
 
-interface quickObject {
-    currentArray: number[],
-    pivot: number,
-    pivotIndex: number,
-    indexComparedtoPivot: number,
-    leftOrRight: string,
-    fullArray: number[]
+export interface QuickSortState {
+    originalArray: number[],
+    sortedArray?: number[],
+    left?: number[],
+    right?: number[],
+    pivot?: number,
+    discriminationIndex?: number,
 }
 
-export const quickObjectArray: quickObject[] = []
-export const fullArray: number[] = []
-
 //sort algo
-export const quickSort = (array: number[], quickObjectArray: quickObject[], fullArray: number[]): number[] => {
+export const quickSortHistory = (input: number[]): {
+    sortedArray: number[],
+    history: QuickSortState[]
+} { 
 
-    if (array.length <= 1) {
-        return array
-    }
-    const pivotIndex = array.length
-    const pivot = array.pop()!
-    console.log("pivot:", pivot)
-    const left: number[] = []
-    const right: number[] = []
+    const history: QuickSortState[] = []
 
-    array.forEach((item, index, array) => {
-        quickObjectArray.push({
-            currentArray: array.slice(),
-            pivot: pivot,
-            pivotIndex: pivotIndex,
-            indexComparedtoPivot: index,
-            leftOrRight: item < pivot ? "left" : "right",
-            fullArray: fullArray.slice()
+    function sort(arr: number[]): number[] {
+        history.push({
+            originalArray: [...arr]
         })
-        console.log("item:", item)
-        if (item < pivot) {
 
-            left.push(item)
+        if (arr.length <= 1) return arr
 
-            console.log("after push left:", left)
+        const pivot = arr[arr.length - 1]
+        const rest = arr.slice(0, -1)
 
-        }
-        if (item > pivot) {
-            right.push(item)
+        const left: number[] = []
+        const right: number[] = []
 
-            console.log("after push right:", right)
+        rest.forEach((num, index) => {
+            history.push({
+                originalArray: [...arr],
+                pivot, 
+                discriminationIndex: index,
+                left: [...left],
+                right: [...right]
+            })
 
-        }
-    })
-    const sorted = [...quickSort(left, quickObjectArray, fullArray), pivot, ...quickSort(right, quickObjectArray, fullArray)]
-    console.log("Sorted", sorted);
-    return quickObjectArray
+            if (num < pivot) {
+                left.push(num)
+            } else {
+                right.push(num)
+            }
 
+            history.push({
+                originalArray: [...arr],
+                pivot,
+                discriminationIndex: index,
+                left: [...left],
+                right: [...right]
+            })
+        })
+
+        const sortedLeft = sort(left)
+        const sortedRight = sort(right)
+
+        const merged = [...sortedLeft, pivot, ...sortedRight]
+
+        history.push({
+            originalArray: [...arr],
+            pivot, 
+            left: sortedLeft,
+            right: sortedRight,
+            sortedArray: [...merged]
+        })
+
+        return merged
+    
+    }
+
+    const sortedArray = sort([...input])
+    return { sortedArray, history }
 }
