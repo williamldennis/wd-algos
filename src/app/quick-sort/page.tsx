@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import * as motion from "motion/react-client"
 import { useState } from "react";
 import { log } from "console";
-import { quickSort } from "@/algos/quick-sort";
+import { fullArray, quickObjectArray, quickSort } from "@/algos/quick-sort";
 
 type NumArray = number[]
 
@@ -31,7 +31,7 @@ export default function QuickSort() {
                             >Generate Numbers</Button>
                             <Button
                                 className="p-7 text-md h-15 bg-green-800 rounded-full border-1 border-green-900 ml-4"
-                                onClick={() => quickSort(sortNumbers)}
+                                onClick={() => quickSort(sortNumbers, quickObjectArray, fullArray)}
                             >Sort Numbers</Button>
                         </motion.div>
                     </div>
