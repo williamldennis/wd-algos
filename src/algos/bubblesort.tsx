@@ -1,7 +1,7 @@
 
 ///create an array of frames -- each frame is a State of the array
 
-type animationState = {
+export type animationState = {
     originalArr?: number[],
     sortedArr?: number[],
     stepArr?: number[]
@@ -10,10 +10,12 @@ type animationState = {
 
 const frames: animationState[] = []
 
-export function bubbleSort(arr: number[]): number[] {
+export function bubbleSort(oldArr: number[]): { sortedArray: number[], frames: animationState[] } {
+
+    const arr = oldArr.slice()
 
     frames.push({
-        originalArr: arr.slice(),
+        originalArr: oldArr.slice(),
     })
     let swapped: boolean
 
@@ -40,7 +42,7 @@ export function bubbleSort(arr: number[]): number[] {
     })
     console.log("sorted:", arr)
     console.log("frames:", frames)
-    return arr
+    return { sortedArray: arr, frames: frames }
 }
 
 bubbleSort([5, 7, 3, 4, 9, 2, 6])
