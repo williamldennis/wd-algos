@@ -21,19 +21,23 @@ export default function BubbleSort() {
     const generateNumbers = () => {
         const newNumbers: number[] = Array.from({ length: 8 }, () => Math.floor(Math.random() * 100))
         setSortNumbers(newNumbers)
+        setFrames([])
+        setSortedArray([])
     }
-
-    //create a history array to cycle through 
-    const [history, setHistory] = useState([])
 
     //handle sort
     const [sortedArray, setSortedArray] = useState<number[]>([])
-    const [frames, setFrames] = useState<animationState[]>([])
     const handleSort = () => {
         const result = bubbleSort(sortNumbers)
         setSortedArray(result.sortedArray)
         setFrames(result.frames)
+        setCurrentFrame(0);
     }
+
+
+    //animation controls
+    const [frames, setFrames] = useState<animationState[]>([])
+    const [currentFrame, setCurrentFrame] = useState(0)
 
     return (
         <div className="flex h-screen">
@@ -52,12 +56,36 @@ export default function BubbleSort() {
                     <div className="bg-white rounded p-4 text-center my-2 font-bold">
                         {sortNumbers.join(", ")}
                     </div>
-
                     <Button
                         onClick={() => handleSort()}
                         className="w-full mb-2">
                         Sort Numbers
                     </Button>
+                    <Button
+                        onClick={() => {
+                            if (currentFrame < frames.length - 1) {
+                                setCurrentFrame(prev => prev + 1)
+                            }
+                        }}
+                        className="w-full mb-2">
+                        Animate Sort
+                    </Button>
+                    <div className="bg-white h-20">
+                        Animation
+                        <div>
+                            {frames &&
+                                <div className="text-center font-bold">
+                                    {frames[currentFrame]?.stepArr?.join(", ")}
+                                </div>
+
+                            }
+                        </div>
+
+                    </div>
+
+
+
+                    <div>Sorted Numbers</div>
                     <div className="bg-white rounded p-4 text-center my-2 font-bold">
                         {sortedArray.join(", ")}
                     </div>

@@ -8,11 +8,11 @@ export type animationState = {
 
 }
 
-const frames: animationState[] = []
 
 export function bubbleSort(oldArr: number[]): { sortedArray: number[], frames: animationState[] } {
 
     const arr = oldArr.slice()
+    const frames: animationState[] = []
 
     frames.push({
         originalArr: oldArr.slice(),
