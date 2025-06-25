@@ -87,7 +87,10 @@ export default function BubbleSort() {
 
                     <div>Sorted Numbers</div>
                     <div className="bg-white rounded p-4 text-center my-2 font-bold">
-                        {sortedArray.join(", ")}
+                        {currentFrame == frames.length-1 
+                            ? sortedArray.join(", ")
+                            : ""
+                        }
                     </div>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
