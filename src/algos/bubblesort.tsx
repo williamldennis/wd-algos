@@ -4,7 +4,9 @@
 export type animationState = {
     originalArr?: number[],
     sortedArr?: number[],
-    stepArr?: number[]
+    stepArr?: number[],
+    currentIndex?: number,
+    neighborIndex?: number
 
 }
 
@@ -24,12 +26,14 @@ export function bubbleSort(oldArr: number[]): { sortedArray: number[], frames: a
         swapped = false
 
         for (let i = 0; i < arr.length - 1; i++) {
+            frames.push({
+                stepArr: arr.slice(),
+                currentIndex: i,
+                neighborIndex: i + 1
+            });
 
             if (arr[i] > arr[i + 1]) {
                 [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]
-                frames.push({
-                    stepArr: arr.slice(),
-                })
                 swapped = true
             }
         }

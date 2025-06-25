@@ -23,7 +23,7 @@ export default function BubbleSort() {
 
 
     const generateNumbers = () => {
-        const newNumbers: number[] = Array.from({ length: 5 }, () => Math.floor(Math.random() * 100))
+        const newNumbers: number[] = Array.from({ length: 4 }, () => Math.floor(Math.random() * 100))
         setSortNumbers(newNumbers)
         const result = bubbleSort(newNumbers)
         setSortedArray(result.sortedArray)
@@ -49,25 +49,29 @@ export default function BubbleSort() {
         <div className="flex mt-10">
             <Card className="w-full max-w-sm m-auto">
                 <CardHeader>
-                    <CardTitle>Bubble Sort</CardTitle>
-                    <CardDescription>
-                        An algorithm that uses a do...while loop to sort an array by comparing neighboring items.                    </CardDescription>
+                    <CardTitle className="text-2xl">Bubble Sort</CardTitle>
+                    <CardDescription className="text-md">
+                        An algorithm that sorts an array by comparing neighboring items.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Button
                         onClick={() => generateNumbers()}
                         className="w-full mb-2">
-                        Generate Numbers
+                        Generate Random Numbers
                     </Button>
-                    <div className="bg-white rounded p-4 text-center my-2 font-bold">
-                        {sortNumbers.join(", ")}
+                    <div className="bg-white rounded p-4 text-center my-2 font-bold flex gap-2 justify-center">
+                        {sortNumbers.map(num => (
+                            <div className="bg-blue-300 rounded w-15 py-1 text-center">{num}</div>
+                        ))}
                     </div>
                     {/* <Button
                         onClick={() => handleSort()}
                         className="w-full mb-2">
                         Sort Numbers
                     </Button> */}
-                    <div className="my-2">Animation</div>
+                    <div className="my-4 font-bold">
+                        Show Step-by-Step Sorting
+                    </div>
                     <Button
                         onClick={() => {
                             if (visibleFrameCount < frames.length) {
@@ -75,7 +79,7 @@ export default function BubbleSort() {
                             }
                         }}
                         className="w-full mb-4">
-                        Show Step-by-Step Sorting
+                        Next Step
                     </Button>
                     <div className="bg-white h-full p-4 rounded">
                         <div>
@@ -83,13 +87,24 @@ export default function BubbleSort() {
                                 <div className="text-center font-bold">
                                     {frames.slice(0, visibleFrameCount).map((frame, index) => (
                                         <div className="flex justify-center gap-2 mb-2">
-                                            {(frame.stepArr || frame.originalArr)?.map((num, i) => (
-                                                <div className="bg-red-300 rounded w-15 py-1 text-center">
-                                                    {num}
-                                                </div>
-                                            ))}
+                                            {(frame.stepArr || frame.originalArr)?.map((num, i) => {
+
+                                                const isCurrent = i === frame.currentIndex
+                                                const isNeighbor = i === frame.neighborIndex
+
+                                                return (
+                                                    <div
+                                                        key={i}
+                                                        className={`rounded w-15 py-1 text-center transition-all duration-200
+                                                        ${isCurrent || isNeighbor ? "bg-yellow-400 font-bold" : "bg-red-300"}`}
+                                                    >
+                                                        {num}
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
-                                    ))}                                </div>
+                                    ))}
+                                </div>
                             }
                         </div>
                     </div>
