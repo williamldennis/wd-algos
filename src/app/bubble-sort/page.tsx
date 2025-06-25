@@ -18,21 +18,27 @@ export default function BubbleSort() {
 
     //generate numbers to sort
     const [sortNumbers, setSortNumbers] = useState<number[]>([])
+    const [sortedArray, setSortedArray] = useState<number[]>([])
+    const [visibleFrameCount, setVisibleFrameCount] = useState(0)
+
+
     const generateNumbers = () => {
-        const newNumbers: number[] = Array.from({ length: 8 }, () => Math.floor(Math.random() * 100))
+        const newNumbers: number[] = Array.from({ length: 5 }, () => Math.floor(Math.random() * 100))
         setSortNumbers(newNumbers)
-        setFrames([])
-        setSortedArray([])
+        const result = bubbleSort(newNumbers)
+        setSortedArray(result.sortedArray)
+        setFrames(result.frames)
+        setCurrentFrame(0)
+        setVisibleFrameCount(1)
     }
 
     //handle sort
-    const [sortedArray, setSortedArray] = useState<number[]>([])
-    const handleSort = () => {
-        const result = bubbleSort(sortNumbers)
-        setSortedArray(result.sortedArray)
-        setFrames(result.frames)
-        setCurrentFrame(0);
-    }
+    // const handleSort = () => {
+    //     const result = bubbleSort(sortNumbers)
+    //     setSortedArray(result.sortedArray)
+    //     setFrames(result.frames)
+    //     setCurrentFrame(0);
+    // }
 
 
     //animation controls
@@ -40,7 +46,7 @@ export default function BubbleSort() {
     const [currentFrame, setCurrentFrame] = useState(0)
 
     return (
-        <div className="flex h-screen">
+        <div className="flex mt-10">
             <Card className="w-full max-w-sm m-auto">
                 <CardHeader>
                     <CardTitle>Bubble Sort</CardTitle>
@@ -56,42 +62,52 @@ export default function BubbleSort() {
                     <div className="bg-white rounded p-4 text-center my-2 font-bold">
                         {sortNumbers.join(", ")}
                     </div>
-                    <Button
+                    {/* <Button
                         onClick={() => handleSort()}
                         className="w-full mb-2">
                         Sort Numbers
-                    </Button>
+                    </Button> */}
+                    <div className="my-2">Animation</div>
                     <Button
                         onClick={() => {
-                            if (currentFrame < frames.length - 1) {
-                                setCurrentFrame(prev => prev + 1)
+                            if (visibleFrameCount < frames.length) {
+                                setVisibleFrameCount(prev => prev + 1)
                             }
                         }}
-                        className="w-full mb-2">
-                        Animate Sort
+                        className="w-full mb-4">
+                        Show Step-by-Step Sorting
                     </Button>
-                    <div className="bg-white h-20">
-                        Animation
+                    <div className="bg-white h-full p-4 rounded">
                         <div>
                             {frames &&
                                 <div className="text-center font-bold">
-                                    {frames[currentFrame]?.stepArr?.join(", ")}
-                                </div>
-
+                                    {frames.slice(0, visibleFrameCount).map((frame, index) => (
+                                        <div className="flex justify-center gap-2 mb-2">
+                                            {(frame.stepArr || frame.originalArr)?.map((num, i) => (
+                                                <div className="bg-red-300 rounded w-15 py-1 text-center">
+                                                    {num}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}                                </div>
                             }
                         </div>
-
                     </div>
 
 
 
-                    <div>Sorted Numbers</div>
+                    <div className="my-2">Completed Sort</div>
                     <div className="bg-white rounded p-4 text-center my-2 font-bold">
-                        {currentFrame == frames.length-1 
-                            ? sortedArray.join(", ")
-                            : ""
-                        }
+                        <div className="flex justify-center gap-2">
+
+                            {visibleFrameCount == frames.length
+                                ? sortedArray.map(num =>
+                                    <div className="bg-green-300 rounded w-15 py-1 text-center">{num}</div>)
+                                : ""
+                            }
+                        </div>
                     </div>
+
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
 
