@@ -27,6 +27,11 @@ export default function Home() {
             >Quick Sort</Button>
           </li>
           <li>
+            <Button
+              onClick={() => router.push('/bubble-sort')}
+            >Bubble Sort</Button>
+          </li>
+          <li>
             <Button>Path Planning</Button>
           </li>
         </ol>
